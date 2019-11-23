@@ -22,6 +22,7 @@ export default class Headroom extends Component {
     pinStart: PropTypes.number,
     style: PropTypes.object,
     calcHeightOnResize: PropTypes.bool,
+    tag: PropTypes.string,
   };
 
   static defaultProps = {
@@ -36,13 +37,14 @@ export default class Headroom extends Component {
     wrapperStyle: {},
     pinStart: 0,
     calcHeightOnResize: true,
+    tag: 'header',
   };
 
   static getDerivedStateFromProps (props, state) {
     if (props.disable && state.state !== 'unfixed') {
       return {
         translateY: 0,
-        className: 'headroom headroom--unfixed headroom-disable-animation',
+        className: 'header header--unfixed header-disable-animation',
         animation: false,
         state: 'unfixed',
       }
@@ -61,7 +63,7 @@ export default class Headroom extends Component {
     this.state = {
       state: 'unfixed',
       translateY: 0,
-      className: 'headroom headroom--unfixed',
+      className: 'header header--unfixed',
     }
   }
 
@@ -205,7 +207,7 @@ export default class Headroom extends Component {
 
     this.setState({
       translateY: '-100%',
-      className: 'headroom headroom--unpinned',
+      className: 'header header--unpinned',
       animation: true,
       state: 'unpinned',
     })
@@ -216,7 +218,7 @@ export default class Headroom extends Component {
 
     this.setState({
       translateY: '-100%',
-      className: 'headroom headroom--unpinned headroom-disable-animation',
+      className: 'header header--unpinned header-disable-animation',
       animation: false,
       state: 'unpinned',
     })
@@ -227,7 +229,7 @@ export default class Headroom extends Component {
 
     this.setState({
       translateY: 0,
-      className: 'headroom headroom--pinned',
+      className: 'header header--pinned',
       animation: true,
       state: 'pinned',
     })
@@ -238,7 +240,7 @@ export default class Headroom extends Component {
 
     this.setState({
       translateY: 0,
-      className: 'headroom headroom--unfixed headroom-disable-animation',
+      className: 'header header--unfixed header-disable-animation',
       animation: false,
       state: 'unfixed',
     })
@@ -311,7 +313,7 @@ export default class Headroom extends Component {
         OTransition: 'all .2s ease-in-out',
         transition: 'all .2s ease-in-out',
       }
-      className += ' headroom--scrolled'
+      className += ' header--scrolled'
     }
 
     if (!this.props.disableInlineStyles) {
@@ -329,11 +331,13 @@ export default class Headroom extends Component {
     }
 
     const wrapperClassName = userClassName
-      ? `${userClassName} headroom-wrapper`
-      : 'headroom-wrapper'
+      ? `${userClassName} header-wrapper`
+      : 'header-wrapper'
+
+    const WrapperTag = this.props.tag
 
     return (
-      <div style={wrapperStyles} className={wrapperClassName}>
+      <WrapperTag style={wrapperStyles} className={wrapperClassName}>
         <div
           ref={this.setRef}
           {...rest}
@@ -342,7 +346,7 @@ export default class Headroom extends Component {
         >
           {this.props.children}
         </div>
-      </div>
+      </WrapperTag>
     )
   }
 }
